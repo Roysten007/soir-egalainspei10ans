@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Particles } from "./Particles";
-import { FloralPattern } from "./FloralPattern";
+import { Particles } from "../Particles";
+import { FloralPattern } from "../FloralPattern";
 
 const Bilingual = ({ fr, en }: { fr: string; en: string }) => (
   <span className="inline-flex flex-wrap items-baseline gap-2">
