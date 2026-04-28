@@ -1,30 +1,42 @@
-import { useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
-import { Reveal, SectionLabel } from "../Reveal";
+import { SectionLabel } from "../Reveal";
 import { FloralPattern } from "../FloralPattern";
-import { Camera, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const Galerie = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true,
     align: "start",
     slidesToScroll: 1,
+    containScroll: "trimSnaps",
     breakpoints: {
       "(min-width: 768px)": { slidesToScroll: 2 },
       "(min-width: 1024px)": { slidesToScroll: 3 }
     }
   });
 
+  const [current, setCurrent] = useState(0);
+  const [total, setTotal] = useState(0);
+
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
   useEffect(() => {
     if (!emblaApi) return;
+    const onSelect = () => setCurrent(emblaApi.selectedScrollSnap());
+    setTotal(emblaApi.scrollSnapList().length);
+    emblaApi.on("select", onSelect);
+    onSelect();
+    
     const intervalId = setInterval(() => {
       emblaApi.scrollNext();
     }, 8000);
-    return () => clearInterval(intervalId);
+    return () => {
+      clearInterval(intervalId);
+      emblaApi.off("select", onSelect);
+    };
   }, [emblaApi]);
 
   const images = [
@@ -78,55 +90,52 @@ export const Galerie = () => {
             transition={{ delay: 0.2 }}
             className="text-white/90 max-w-3xl mx-auto mt-4 leading-relaxed text-lg md:text-xl font-medium"
           >
-            Revivez les moments forts de l'édition précédente. Chaque image capture l'élégance et l'excellence qui ont marqué notre Gala 2025. Un avant-goût du prestige qui vous attend pour cette nouvelle édition 2026.
+            Revivez les moments forts de l'édition précédente. Chaque image capture l'élégance et l'excellence qui ont marqué notre Gala 2025.
           </motion.p>
         </div>
 
-        <div className="relative group">
+        <div className="relative">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex -ml-4 md:-ml-6">
               {images.map((img, i) => (
                 <div key={i} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] pl-4 md:pl-6">
-                  <div className="group relative aspect-[4/5] bg-card rounded-3xl border border-gold/15 hover:border-gold/60 transition-all duration-500 overflow-hidden">
+                  <div className="relative aspect-[4/5] bg-card rounded-3xl border border-gold/15 hover:border-gold/60 transition-all duration-500 overflow-hidden">
                     <img 
                       src={img.src} 
                       alt={img.alt}
+                      width={400}
+                      height={500}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Controls */}
+          {/* Arrow buttons — always visible */}
           <button
             onClick={scrollPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-8 w-12 h-12 rounded-full bg-background/80 border border-gold/20 flex items-center justify-center text-gold hover:bg-gold hover:text-background transition-all opacity-0 group-hover:opacity-100 z-20"
+            aria-label="Image précédente"
+            className="absolute left-2 md:left-0 top-1/2 -translate-y-1/2 md:-translate-x-6 w-11 h-11 md:w-12 md:h-12 rounded-full bg-black/70 border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-black transition-all z-20 shadow-lg"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </button>
           <button
             onClick={scrollNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-8 w-12 h-12 rounded-full bg-background/80 border border-gold/20 flex items-center justify-center text-gold hover:bg-gold hover:text-background transition-all opacity-0 group-hover:opacity-100 z-20"
+            aria-label="Image suivante"
+            className="absolute right-2 md:right-0 top-1/2 -translate-y-1/2 md:translate-x-6 w-11 h-11 md:w-12 md:h-12 rounded-full bg-black/70 border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-black transition-all z-20 shadow-lg"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
-        <Reveal delay={0.4} className="text-center mt-12">
-          <div className="flex justify-center gap-2">
-            {images.map((_, i) => (
-              <div 
-                key={i} 
-                className="w-2 h-2 rounded-full bg-gold/20"
-              />
-            ))}
-          </div>
-        </Reveal>
+        {/* Simple counter instead of 27 dots */}
+        <div className="text-center mt-8 text-sm text-gold/70 font-medium">
+          {current + 1} / {total || images.length}
+        </div>
       </div>
     </section>
   );
