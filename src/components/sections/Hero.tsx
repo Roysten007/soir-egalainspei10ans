@@ -19,6 +19,8 @@ export const Hero = () => (
         src="/hero-main.jpg"
         alt="Gala Background"
         className="w-full h-full object-cover"
+        loading="eager"
+        fetchPriority="high"
       />
       {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-black/65 backdrop-blur-[1px]" />
@@ -43,7 +45,7 @@ export const Hero = () => (
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="font-display font-bold text-4xl sm:text-6xl lg:text-7xl xl:text-8xl leading-[1.1] max-w-5xl tracking-tight text-white drop-shadow-2xl"
+        className="font-display font-bold text-2xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.1] max-w-5xl tracking-tight text-white drop-shadow-2xl"
       >
         Une décennie de prestige,
         <br />

@@ -70,11 +70,11 @@ export const Sponsors = () => (
 
       <Reveal delay={0.4} className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
         <a
-          href="tel:+2290191223478"
+          href="tel:+2290159829997"
           className="inline-flex items-center justify-center gap-3 px-5 py-3 rounded-full border border-gold/30 bg-card/60 hover:border-gold hover:bg-gold/10 transition-all text-sm group overflow-hidden"
         >
           <Phone className="w-4 h-4 text-gold group-hover:scale-110 transition-transform flex-shrink-0" />
-          <span className="truncate">+229 0191223478 / 0147335455</span>
+          <span className="truncate">+229 0159829997</span>
         </a>
         <a
           href="mailto:ornelquenum388@gmail.com"

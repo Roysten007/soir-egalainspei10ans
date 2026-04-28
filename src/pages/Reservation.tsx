@@ -50,7 +50,7 @@ const Reservation = () => {
   const totalAmount = data.spots * PRICE_PER_SPOT;
   
   // NUMÉRO WHATSAPP DE L'ORGANISATEUR
-  const ADMIN_WHATSAPP = "2290191223478"; 
+  const ADMIN_WHATSAPP = "2290159829997"; 
 
   const next = () => {
     const r = step1Schema.safeParse(data);
