@@ -1,11 +1,5 @@
 import { Link } from "react-router-dom";
-import { Smartphone, Mail, Instagram, Facebook, Heart } from "lucide-react";
-
-const socials = [
-  { label: "Instagram", path: "M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 6a4 4 0 100 8 4 4 0 000-8zm5.5-1.5a1 1 0 100 2 1 1 0 000-2z" },
-  { label: "WhatsApp", path: "M12 2a10 10 0 00-8.5 15.2L2 22l4.9-1.4A10 10 0 1012 2z" },
-  { label: "Facebook", path: "M13 22v-8h3l1-4h-4V7.5c0-1.1.5-2 2-2h2V2h-3c-3 0-5 2-5 5v3H6v4h3v8h4z" },
-];
+import { Smartphone, Mail, Heart } from "lucide-react";
 
 export const Footer = () => (
   <footer className="relative bg-background-deep border-t border-gold/15 overflow-hidden">
@@ -61,20 +55,6 @@ export const Footer = () => (
               </a>
             </li>
           </ul>
-          <div className="flex gap-3 mt-5">
-            {socials.map((s) => (
-              <a
-                key={s.label}
-                href="#"
-                aria-label={s.label}
-                className="w-10 h-10 rounded-full border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-background transition-all"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <path d={s.path} />
-                </svg>
-              </a>
-            ))}
-          </div>
         </div>
       </div>
 
