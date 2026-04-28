@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { FloralPattern } from "@/components/FloralPattern";
+import { ArrowLeft, Handshake, Check, Send } from "lucide-react";
 
 const schema = z.object({
   fullName: z.string().trim().min(2, "Nom requis").max(80),
@@ -43,9 +44,10 @@ const Sponsor = () => {
         <div className="container mx-auto px-6 max-w-3xl relative z-10">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm text-foreground/70 hover:text-gold mb-8 transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-foreground/70 hover:text-gold mb-8 transition-colors group"
           >
-            <span>←</span> Retour à l'accueil
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Retour à l'accueil
           </Link>
 
           <motion.div
@@ -54,16 +56,16 @@ const Sponsor = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-10"
           >
-            <h1 className="font-display text-4xl md:text-5xl mb-3">
+            <h1 className="font-display font-bold text-4xl md:text-5xl mb-4 leading-tight">
               Devenez <span className="gradient-gold-text italic">Partenaire</span>
             </h1>
-            <p className="font-script italic text-foreground/65 text-xl">Become a Partner</p>
+            <p className="font-script font-medium text-foreground/65 text-xl">Soutenez l'élite, bâtissez l'avenir</p>
           </motion.div>
 
-          <div className="text-center mb-8 max-w-2xl mx-auto">
-            <p className="text-foreground/80 leading-relaxed">
-              Devenir partenaire du Gala des 10 ans de l'INSPEI, c'est associer votre image à une
-              institution qui forme les ingénieurs qui bâtiront demain.
+          <div className="text-center mb-8 max-w-3xl mx-auto">
+            <p className="text-foreground/80 leading-relaxed text-lg">
+              Devenir partenaire du Gala des 10 ans de l'INSPEI, c'est associer votre prestige à une institution 
+              d'excellence qui forge les leaders technologiques de demain au Bénin.
             </p>
           </div>
 
@@ -79,16 +81,15 @@ const Sponsor = () => {
                   className="space-y-5"
                 >
                   {[
-                    { k: "fullName", label: "Nom complet", hint: "Full name", type: "text" },
-                    { k: "company", label: "Entreprise", hint: "Company", type: "text" },
-                    { k: "phone", label: "Téléphone / WhatsApp", hint: "Phone", type: "tel" },
-                    { k: "email", label: "Email", hint: "Email", type: "email" },
+                    { k: "fullName", label: "Nom complet", type: "text" },
+                    { k: "company", label: "Entreprise", type: "text" },
+                    { k: "phone", label: "Téléphone / WhatsApp", type: "tel" },
+                    { k: "email", label: "Email", type: "email" },
                   ].map((f) => (
                     <label key={f.k} className="block">
                       <div className="mb-2 flex items-baseline justify-between">
                         <span className="text-sm font-medium">
                           {f.label}
-                          <span className="ml-2 font-script italic text-foreground/50 text-xs">/ {f.hint}</span>
                         </span>
                         {errors[f.k] && <span className="text-destructive text-xs">{errors[f.k]}</span>}
                       </div>
@@ -104,23 +105,22 @@ const Sponsor = () => {
                   <label className="block">
                     <div className="mb-2 text-sm font-medium">
                       Message libre
-                      <span className="ml-2 font-script italic text-foreground/50 text-xs">/ Free message</span>
                     </div>
                     <textarea
                       rows={5}
                       className={inputCls + " resize-none"}
                       value={data.message}
                       onChange={(e) => setData({ ...data, message: e.target.value })}
-                      placeholder="Parlez-nous de votre entreprise et de votre intérêt..."
+                      placeholder="Décrivez votre vision pour ce partenariat..."
                     />
                   </label>
 
                   <button
                     type="submit"
-                    className="w-full bg-gradient-gold text-background font-medium px-6 py-4 rounded-full shadow-gold-glow hover:scale-[1.02] active:scale-95 transition-transform"
+                    className="w-full bg-gradient-gold text-background font-medium px-6 py-4 rounded-full shadow-gold-glow hover:scale-[1.02] active:scale-95 transition-transform flex items-center justify-center gap-2"
                   >
-                    Envoyer ma candidature
-                    <span className="font-script italic text-sm opacity-80 ml-2">/ Submit my application</span>
+                    <Send className="w-4 h-4" />
+                    Soumettre ma proposition de partenariat
                   </button>
                 </motion.form>
               ) : (
@@ -134,28 +134,25 @@ const Sponsor = () => {
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                    className="w-28 h-28 rounded-full bg-gradient-gold mx-auto mb-6 flex items-center justify-center shadow-gold-glow"
+                    className="w-28 h-28 rounded-full bg-gradient-gold mx-auto mb-8 flex items-center justify-center shadow-gold-glow"
                   >
-                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="hsl(0 100% 5%)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 13l4 4L19 7" />
-                    </svg>
+                    <Handshake className="w-12 h-12 text-background" />
                   </motion.div>
                   <h2 className="font-display text-3xl mb-2">
-                    🤝 Merci de votre <span className="gradient-gold-text">intérêt !</span>
+                    Merci de votre <span className="gradient-gold-text">intérêt !</span>
                   </h2>
                   <p className="font-script italic text-gold-light text-lg mb-4">
-                    Thank you for your interest!
+                    Merci pour votre confiance.
                   </p>
                   <p className="text-foreground/70 max-w-md mx-auto mb-8">
-                    Notre équipe vous contactera très prochainement.
-                    <br />
-                    <span className="font-script italic text-foreground/55">Our team will reach out soon.</span>
+                    Notre équipe vous contactera très prochainement pour discuter du partenariat.
                   </p>
                   <Link
                     to="/"
                     className="inline-flex items-center gap-2 bg-gradient-gold text-background font-medium px-7 py-4 rounded-full shadow-gold-glow hover:scale-105 transition-transform"
                   >
-                    ← Retour à l'accueil
+                    <ArrowLeft className="w-4 h-4" />
+                    Retour à l'accueil
                   </Link>
                 </motion.div>
               )}

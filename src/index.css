@@ -79,11 +79,11 @@
   }
 
   h1, h2, h3, h4, h5 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Montserrat', sans-serif;
   }
 
-  .font-display { font-family: 'Playfair Display', serif; }
-  .font-script { font-family: 'Cormorant Garamond', serif; }
+  .font-display { font-family: 'Montserrat', sans-serif; }
+  .font-script { font-family: 'Outfit', sans-serif; }
   .font-body { font-family: 'DM Sans', sans-serif; }
 
   /* Custom scrollbar */
@@ -102,6 +102,32 @@
   @media (hover: none) {
     body { cursor: auto; }
     .custom-cursor { display: none; }
+    a, button, input, textarea, [role="button"] { cursor: auto; }
+  }
+
+  /* Global overflow prevention — no horizontal scroll on mobile */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  /* Prevent any element from causing overflow */
+  * {
+    box-sizing: border-box;
+    min-width: 0;
+  }
+
+  /* Responsive images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Responsive typography base */
+  @media (max-width: 640px) {
+    h1 { font-size: clamp(1.8rem, 8vw, 3rem); }
+    h2 { font-size: clamp(1.5rem, 6vw, 2.5rem); }
+    h3 { font-size: clamp(1.2rem, 5vw, 1.8rem); }
   }
 }
 

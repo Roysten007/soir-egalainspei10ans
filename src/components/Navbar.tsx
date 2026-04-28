@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 const links = [
   { label: "Accueil", href: "#hero" },
   { label: "Programme", href: "#programme" },
   { label: "Galerie", href: "#galerie" },
   { label: "Sponsors", href: "#sponsors" },
-  { label: "Tickets", href: "#tickets" },
+  { label: "Réservations", href: "#tickets" },
 ];
 
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [lang, setLang] = useState<"FR" | "EN">("FR");
   const { pathname } = useLocation();
   const isHome = pathname === "/";
 
@@ -73,45 +73,20 @@ export const Navbar = () => {
 
         {/* Right cluster */}
         <div className="flex items-center gap-3">
-          {/* Lang toggle */}
-          <div className="hidden sm:flex items-center bg-card rounded-full p-1 border border-gold/20">
-            {(["FR", "EN"] as const).map((l) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className={`px-3 py-1 text-xs font-medium rounded-full transition-all ${
-                  lang === l
-                    ? "bg-gradient-gold text-background shadow-gold-glow"
-                    : "text-foreground/60 hover:text-gold"
-                }`}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
-
           <Link
             to="/reservation"
             className="hidden md:inline-flex items-center gap-2 bg-gradient-gold text-background font-medium text-sm px-5 py-2.5 rounded-full shadow-gold-glow hover:scale-105 active:scale-95 transition-transform"
           >
-            Réserver mon ticket
+            Réserver ma place
           </Link>
 
           {/* Hamburger */}
           <button
             aria-label="Menu"
             onClick={() => setOpen((v) => !v)}
-            className="lg:hidden w-11 h-11 rounded-full bg-card border border-gold/20 flex items-center justify-center text-gold"
+            className="lg:hidden w-11 h-11 rounded-full bg-card border border-gold/20 flex items-center justify-center text-gold transition-all active:scale-90"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              {open ? (
-                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              ) : (
-                <>
-                  <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </>
-              )}
-            </svg>
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
@@ -141,7 +116,7 @@ export const Navbar = () => {
                 onClick={() => setOpen(false)}
                 className="mt-3 text-center bg-gradient-gold text-background font-medium px-5 py-3 rounded-full"
               >
-                Réserver mon ticket
+                Réserver ma place
               </Link>
             </div>
           </motion.div>

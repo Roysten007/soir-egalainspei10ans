@@ -7,6 +7,7 @@ import { CustomCursor } from "@/components/CustomCursor";
 import Index from "./pages/Index.tsx";
 import Reservation from "./pages/Reservation.tsx";
 import Sponsor from "./pages/Sponsor.tsx";
+import AdminTickets from "./pages/AdminTickets.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/sponsor" element={<Sponsor />} />
+          <Route path="/admin-tickets" element={<AdminTickets />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

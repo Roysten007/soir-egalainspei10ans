@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Smartphone, Mail, Instagram, Facebook, Heart } from "lucide-react";
 
 const socials = [
   { label: "Instagram", path: "M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 6a4 4 0 100 8 4 4 0 000-8zm5.5-1.5a1 1 0 100 2 1 1 0 000-2z" },
@@ -22,27 +23,26 @@ export const Footer = () => (
               <div className="font-script italic text-gold text-sm">Soirée Gala des 10 ans</div>
             </div>
           </div>
-          <p className="text-foreground/70 text-sm leading-relaxed font-script italic">
-            Une décennie d'excellence, une nuit pour célébrer les ingénieurs qui bâtissent le Bénin de demain.
+          <p className="text-foreground/70 text-sm leading-relaxed font-script font-light">
+            Une décennie d'audace, une nuit d'exception pour honorer les bâtisseurs du Bénin de demain.
           </p>
         </div>
-
+ 
         {/* Nav */}
         <div>
           <h4 className="font-display text-gold mb-4 text-lg">Navigation</h4>
           <ul className="space-y-2 text-sm">
-            {["Accueil", "Programme", "Galerie", "Sponsors", "Tickets"].map((l) => (
+            {["Accueil", "Programme", "Galerie", "Sponsors", "Réservations"].map((l) => (
               <li key={l}>
                 <a
-                  href={`#${l.toLowerCase()}`}
+                  href={`#${l === "Réservations" ? "tickets" : l.toLowerCase()}`}
                   className="text-foreground/70 hover:text-gold transition-colors"
                 >
                   {l}
                 </a>
               </li>
             ))}
-            <li><Link to="/reservation" className="text-foreground/70 hover:text-gold">Réservation</Link></li>
-            <li><Link to="/sponsor" className="text-foreground/70 hover:text-gold">Devenir sponsor</Link></li>
+            <li><Link to="/sponsor" className="text-foreground/70 hover:text-gold">Devenir partenaire</Link></li>
           </ul>
         </div>
 
@@ -50,12 +50,12 @@ export const Footer = () => (
         <div>
           <h4 className="font-display text-gold mb-4 text-lg">Contact</h4>
           <ul className="space-y-3 text-sm text-foreground/70">
-            <li className="flex items-start gap-2">
-              <span>📱</span>
+            <li className="flex items-start gap-3">
+              <Smartphone className="w-5 h-5 text-gold flex-shrink-0" />
               <span>+229 0191223478<br />+229 0147335455</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span>✉️</span>
+            <li className="flex items-start gap-3">
+              <Mail className="w-5 h-5 text-gold flex-shrink-0" />
               <a href="mailto:ornelquenum388@gmail.com" className="hover:text-gold break-all">
                 ornelquenum388@gmail.com
               </a>
@@ -78,8 +78,8 @@ export const Footer = () => (
         </div>
       </div>
 
-      <div className="pt-8 border-t border-gold/10 text-center text-xs text-foreground/50">
-        © 2025 INSPEI — Soirée Gala des 10 ans · Designed with <span className="text-gold">♥</span> for excellence
+      <div className="pt-8 border-t border-gold/10 text-center text-xs text-foreground/50 flex items-center justify-center gap-1">
+        © 2026 INSPEI — Soirée Gala des 10 ans · Conçu avec <Heart className="w-3 h-3 text-gold fill-gold" /> pour l'excellence
       </div>
     </div>
   </footer>
