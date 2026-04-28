@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Smartphone, Mail, Heart } from "lucide-react";
+import { Smartphone, Mail } from "lucide-react";
 
 export const Footer = () => (
   <footer className="relative bg-background-deep border-t border-gold/15 overflow-hidden">
@@ -46,7 +46,7 @@ export const Footer = () => (
           <ul className="space-y-3 text-sm text-foreground/70">
             <li className="flex items-start gap-3">
               <Smartphone className="w-5 h-5 text-gold flex-shrink-0" />
-              <span>+229 0159829997</span>
+              <span>+229 0191223478<br />+229 0147335455</span>
             </li>
             <li className="flex items-start gap-3">
               <Mail className="w-5 h-5 text-gold flex-shrink-0" />
@@ -58,8 +58,8 @@ export const Footer = () => (
         </div>
       </div>
 
-      <div className="pt-8 border-t border-gold/10 text-center text-xs text-foreground/50 flex items-center justify-center gap-1">
-        © 2026 INSPEI — Soirée Gala des 10 ans · Conçu avec <Heart className="w-3 h-3 text-gold fill-gold" /> pour l'excellence
+      <div className="pt-8 border-t border-gold/10 text-center text-xs text-foreground/50">
+        © 2026 INSPEI — Soirée Gala des 10 ans · Conçu par <span className="text-gold font-semibold">Roysten Design</span>
       </div>
     </div>
   </footer>
