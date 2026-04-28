@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { SectionLabel } from "../Reveal";
 import { FloralPattern } from "../FloralPattern";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 
 export const Galerie = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
@@ -19,6 +19,7 @@ export const Galerie = () => {
 
   const [current, setCurrent] = useState(0);
   const [total, setTotal] = useState(0);
+  const [lightbox, setLightbox] = useState<number | null>(null);
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
@@ -30,14 +31,35 @@ export const Galerie = () => {
     emblaApi.on("select", onSelect);
     onSelect();
     
-    const intervalId = setInterval(() => {
-      emblaApi.scrollNext();
-    }, 8000);
+    // Auto-scroll only on desktop
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    if (!isMobile) {
+      intervalId = setInterval(() => {
+        emblaApi.scrollNext();
+      }, 8000);
+    }
     return () => {
-      clearInterval(intervalId);
+      if (intervalId) clearInterval(intervalId);
       emblaApi.off("select", onSelect);
     };
   }, [emblaApi]);
+
+  // Close lightbox on Escape
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "ArrowRight") setLightbox(prev => prev !== null ? (prev + 1) % images.length : null);
+      if (e.key === "ArrowLeft") setLightbox(prev => prev !== null ? (prev - 1 + images.length) % images.length : null);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightbox]);
 
   const images = [
     { src: "/gallery/gal-1.jpg", alt: "Couple sur tapis rouge" },
@@ -99,7 +121,10 @@ export const Galerie = () => {
             <div className="flex -ml-4 md:-ml-6">
               {images.map((img, i) => (
                 <div key={i} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.333%] pl-4 md:pl-6">
-                  <div className="relative aspect-[4/5] bg-card rounded-3xl border border-gold/15 hover:border-gold/60 transition-all duration-500 overflow-hidden">
+                  <div 
+                    className="relative aspect-[4/5] bg-card rounded-3xl border border-gold/15 hover:border-gold/60 transition-all duration-500 overflow-hidden cursor-pointer group"
+                    onClick={() => setLightbox(i)}
+                  >
                     <img 
                       src={img.src} 
                       alt={img.alt}
@@ -107,8 +132,12 @@ export const Galerie = () => {
                       height={500}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
+                    {/* Zoom overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                      <ZoomIn className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -132,11 +161,67 @@ export const Galerie = () => {
           </button>
         </div>
 
-        {/* Simple counter instead of 27 dots */}
+        {/* Counter */}
         <div className="text-center mt-8 text-sm text-gold/70 font-medium">
           {current + 1} / {total || images.length}
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightbox !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] bg-black/95 flex items-center justify-center p-4"
+            onClick={() => setLightbox(null)}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setLightbox(null)}
+              className="absolute top-4 right-4 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all z-50"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Previous */}
+            <button
+              onClick={(e) => { e.stopPropagation(); setLightbox((lightbox - 1 + images.length) % images.length); }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all z-50"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            {/* Image */}
+            <motion.img
+              key={lightbox}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              src={images[lightbox].src}
+              alt={images[lightbox].alt}
+              className="max-h-[85vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+
+            {/* Next */}
+            <button
+              onClick={(e) => { e.stopPropagation(); setLightbox((lightbox + 1) % images.length); }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all z-50"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Counter */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 text-sm font-medium">
+              {lightbox + 1} / {images.length}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
+
