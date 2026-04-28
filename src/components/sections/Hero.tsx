@@ -27,7 +27,7 @@ export const Hero = () => (
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-background" />
     </div>
 
-    <div className="container mx-auto relative z-10 px-6 text-center flex flex-col items-center justify-center min-h-screen">
+    <div className="container mx-auto relative z-10 px-6 text-center flex flex-col items-center justify-center min-h-screen pt-24 pb-10 sm:pt-0 sm:pb-0">
       {/* Label style */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}

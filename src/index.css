@@ -123,6 +123,11 @@
     height: auto;
   }
 
+  /* Image performance — lazy images use content-visibility */
+  img[loading="lazy"] {
+    content-visibility: auto;
+  }
+
   /* Responsive typography base */
   @media (max-width: 640px) {
     h1 { font-size: clamp(1.8rem, 8vw, 3rem); }
