@@ -45,7 +45,7 @@ export const Navbar = () => {
           : "bg-transparent py-5"
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between gap-4">
+      <div className="container mx-auto px-6 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group">
           <div className="relative w-11 h-11 rounded-full bg-gradient-gold flex items-center justify-center font-display font-black text-background shadow-gold-glow group-hover:scale-105 transition-transform">
@@ -101,7 +101,7 @@ export const Navbar = () => {
             transition={{ duration: 0.3 }}
             className="lg:hidden overflow-hidden bg-background-secondary/95 backdrop-blur-xl border-t border-gold/15"
           >
-            <div className="container mx-auto py-6 flex flex-col gap-2">
+            <div className="container mx-auto px-6 py-8 flex flex-col gap-2 max-h-[80vh] overflow-y-auto">
               {links.map((l) => (
                 <button
                   key={l.href}
@@ -120,6 +120,19 @@ export const Navbar = () => {
               </Link>
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Background overlay when menu is open */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 top-[inherit] z-[-1] bg-black/60 backdrop-blur-sm lg:hidden h-screen"
+          />
         )}
       </AnimatePresence>
     </motion.header>

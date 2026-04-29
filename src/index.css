@@ -111,6 +111,10 @@
     max-width: 100%;
   }
 
+  section {
+    scroll-margin-top: 5rem;
+  }
+
   /* Prevent any element from causing overflow */
   * {
     box-sizing: border-box;
