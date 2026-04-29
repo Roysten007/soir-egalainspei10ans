@@ -24,14 +24,28 @@ export const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleAnchor = (href: string) => {
+  const handleAnchor = (e: React.MouseEvent, href: string) => {
     setOpen(false);
-    if (!isHome) {
-      window.location.href = "/" + href;
-      return;
+    
+    if (isHome && href.startsWith("#")) {
+      e.preventDefault();
+      const el = document.querySelector(href);
+      if (el) {
+        const offset = 80;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = el.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+        
+        // Update URL without jump
+        window.history.pushState(null, "", href);
+      }
     }
-    const el = document.querySelector(href);
-    el?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -61,13 +75,14 @@ export const Navbar = () => {
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1">
           {links.map((l) => (
-            <button
+            <a
               key={l.href}
-              onClick={() => handleAnchor(l.href)}
+              href={isHome ? l.href : `/${l.href}`}
+              onClick={(e) => handleAnchor(e, l.href)}
               className="px-4 py-2 rounded-full text-sm text-foreground/80 hover:text-gold hover:bg-gold/5 transition-colors"
             >
               {l.label}
-            </button>
+            </a>
           ))}
         </nav>
 
@@ -103,13 +118,14 @@ export const Navbar = () => {
           >
             <div className="container mx-auto px-6 py-8 flex flex-col gap-2 max-h-[80vh] overflow-y-auto">
               {links.map((l) => (
-                <button
+                <a
                   key={l.href}
-                  onClick={() => handleAnchor(l.href)}
+                  href={isHome ? l.href : `/${l.href}`}
+                  onClick={(e) => handleAnchor(e, l.href)}
                   className="text-left px-4 py-3 rounded-2xl text-foreground/90 hover:bg-gold/10 hover:text-gold transition-colors"
                 >
                   {l.label}
-                </button>
+                </a>
               ))}
               <Link
                 to="/reservation"
