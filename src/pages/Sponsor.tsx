@@ -23,6 +23,8 @@ const Sponsor = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [done, setDone] = useState(false);
 
+  const ADMIN_WHATSAPP = "2290191223478";
+
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const r = schema.safeParse(data);
@@ -33,6 +35,23 @@ const Sponsor = () => {
       return;
     }
     setErrors({});
+    
+    // Redirection WhatsApp
+    const message = `Bonjour ! Je souhaite devenir partenaire du Gala INSPEI 2026.
+
+📌 *Détails de ma proposition :*
+- *Nom complet :* ${data.fullName}
+- *Entreprise :* ${data.company}
+- *Téléphone :* ${data.phone}
+- *Email :* ${data.email}
+- *Message :* ${data.message || "Pas de message supplémentaire"}
+
+Merci de me recontacter pour discuter des modalités de partenariat.`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodedMessage}`;
+    
+    window.open(whatsappUrl, '_blank');
     setDone(true);
   };
 
